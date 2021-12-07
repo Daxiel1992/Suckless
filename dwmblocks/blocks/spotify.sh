@@ -4,6 +4,6 @@ case $1 in
 	2) printf ""  && exit ;;
 	3) ARTIST=$(playerctl metadata artist --player=spotifyd)
 	   TITLE=$(playerctl metadata title --player=spotifyd)
-	   printf "  %s - %s" "$TITLE" "$ARTIST" ;;
+	   printf " %s - %s" "$TITLE" "$ARTIST" ;;
 esac
 	

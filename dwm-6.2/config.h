@@ -7,8 +7,8 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10", "fontawesome:size=10"};
-static const char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { "Liberation Mono:size=11", "fontawesome:size=10"};
+static const char dmenufont[]       = "Liberation Mono:size=11";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
@@ -81,8 +81,8 @@ static const char *browser[] = { "brave", NULL};
 static const char *logout[] = { "/bin/bash", "-c", "pkill -u dan", NULL};
 static const char *shutdown[] = { "/bin/bash", "-c", "systemctl poweroff", NULL};
 static const char *reboot[] = { "/bin/bash", "-c", "systemctl reboot", NULL};
-static const char *volup[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%+", NULL};
-static const char *voldown[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%-", NULL};
+static const char *volup[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%+", "&&", "/home/dan/bin/sv", NULL};
+static const char *voldown[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%-", "&&", "/home/dan/bin/sv", NULL};
 //static const char *volmute[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 0%", NULL};
 static const char *pauseplay[] = { "/bin/bash", "-c", "playerctl play-pause", NULL};
 static const char *audionext[] = { "/bin/bash", "-c", "playerctl next", NULL};
