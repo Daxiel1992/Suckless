@@ -10,7 +10,7 @@ MEMUSED=$(awk '{print $3}' <<< $FREE)
 MEMTOT=$(awk '{print $2}' <<< $FREE)
 # CPU Stats
 CPU=$(top -bn1 | grep Cpu | awk '{print $2}')%
-CPUTEMP=$(sensors | grep Package | awk '{print $4}')
+CPUTEMP=$(sensors -f | grep Package | awk '{print $4}')
 # Battery
 ACPI=$(acpi | grep 'Battery 0:')
 BATTSTATUS=$(awk '{print $3}' <<< $ACPI | sed 's/.$//')
@@ -21,4 +21,4 @@ then
 else
 	BATTICON=""
 fi
-printf " %s/%s  %s/%s  %s  %s %s %s" "$STOUSED" "$STOTOT" "$MEMUSED" "$MEMTOT" "$CPU" "$CPUTEMP" "$BATTICON" "$BATTPER"
+printf " %s/%s  %s/%s  %s %s %s" "$STOUSED" "$STOTOT" "$MEMUSED" "$MEMTOT" "$CPU" "$BATTICON" "$BATTPER"

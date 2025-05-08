@@ -1,5 +1,5 @@
 /* macro for conveniently specifying pathu and pathc below */
-#define PATH(name)                      "/home/dan/Suckless/dwmblocks/blocks/"name
+#define PATH(name)                      "/home/dan/git/Suckless/dwmblocks/blocks/"name
 
 /* buffer size for capturing output of the programs used for updating blocks */
 #define CMDOUTLENGTH                    100
@@ -17,7 +17,8 @@
 
 /* delimiter specified as an array of characters
  * don't remove DELIMITERENDCHAR at the end */
-static const char delimiter[] = { ' ', ' ', ' ', DELIMITERENDCHAR };
+//static const char delimiter[] = { ' ', ' ', ' ', DELIMITERENDCHAR };
+static const char delimiter[] = { ' ', ' ',  DELIMITERENDCHAR };
 
 #include "block.h"
 
@@ -43,9 +44,8 @@ static const char delimiter[] = { ' ', ' ', ' ', DELIMITERENDCHAR };
 
 static Block blocks[] = {
 /*      pathu                           pathc                           interval        signal */
-  	{ PATH("timer.sh"),           	PATH("timer.sh"),      		0,              5},  
-	{ PATH("spotify.sh"),           PATH("spotify.sh"),      	0,              3},  
-	{ PATH("yay.sh"),               PATH("yay_button.sh"),          60,           4},
+	{ PATH("spotify.sh"),           NULL, 			     	1,              3},  
+	{ PATH("volume.pipewire.sh"),   NULL,			        1,              4},
 	{ PATH("resources.sh"),         NULL,                           1,              2},
         { PATH("calendar.sh"),          NULL,                           30,             1},
 	{ NULL } /* just to mark the end of the array */

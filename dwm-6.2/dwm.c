@@ -202,6 +202,8 @@ static void resizemouse(const Arg *arg);
 static void restack(Monitor *m);
 static void run(void);
 static void scan(void);
+static void schemeCycle(const Arg*);
+static void schemeToggle(const Arg*);
 static int sendevent(Client *c, Atom proto);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
@@ -215,6 +217,7 @@ static void showhide(Client *c);
 static void sigchld(int unused);
 static void sigdwmblocks(const Arg *arg);
 static void spawn(const Arg *arg);
+static void spawndmenu(const Arg *arg);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
@@ -276,6 +279,7 @@ static Atom wmatom[WMLast], netatom[NetLast];
 static int running = 1;
 static Cur *cursor[CurLast];
 static Clr **scheme;
+static int SchemeNorm = 0, SchemeSel = 1;
 static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
@@ -286,6 +290,7 @@ static Window root, wmcheckwin;
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
+
 
 /* function implementations */
 void
@@ -1461,6 +1466,42 @@ scan(void)
 }
 
 void
+schemeCycle(const Arg *arg) {
+
+	if ((SchemeSel + 2) < LENGTH(colors))
+	{
+		SchemeNorm += 2;
+		SchemeSel += 2;
+	} else {
+		SchemeNorm = 0;
+		SchemeSel = 1;
+	}
+
+	drawbars();
+}
+
+void
+schemeToggle(const Arg *arg) {
+
+	int numThemePairs = LENGTH(colors) / 4;
+	int sheme = SchemeNorm / 2;
+
+	if (sheme / 2 > numThemePairs-1) {
+		return;
+	}
+
+	if (sheme % 2 == 0) {
+		SchemeNorm += 2;
+		SchemeSel += 2;
+	} else {
+		SchemeNorm -= 2;
+		SchemeSel -= 2;
+	}
+
+	drawbars();
+}
+
+void
 sendmon(Client *c, Monitor *m)
 {
 	if (c->mon == m)
@@ -1725,6 +1766,29 @@ sigdwmblocks(const Arg *arg)
 }
 
 void
+spawndmenu(const Arg *arg)
+{
+    char *dmenucmd[] = {
+        "dmenu_run",
+        "-m", NULL, // will fill in dmenumon dynamically
+        "-fn", dmenufont,
+        "-nb", (char *)colors[SchemeNorm][ColBg],
+        "-nf", (char *)colors[SchemeNorm][ColFg],
+        "-sb", (char *)colors[SchemeSel][ColBg],
+        "-sf", (char *)colors[SchemeSel][ColFg],
+        "-l", "30",
+        NULL
+    };
+
+    // update monitor number
+    static char mon[2];
+    snprintf(mon, sizeof(mon), "%d", selmon->num);
+    dmenucmd[2] = mon;
+
+    spawn(&(Arg) { .v = dmenucmd });
+}
+
+void
 spawn(const Arg *arg)
 {
 	if (arg->v == dmenucmd)
@@ -1739,6 +1803,7 @@ spawn(const Arg *arg)
 		exit(EXIT_SUCCESS);
 	}
 }
+
 
 void
 tag(const Arg *arg)

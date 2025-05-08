@@ -7,37 +7,66 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Liberation Mono:size=11", "fontawesome:size=10"};
-static const char dmenufont[]       = "Liberation Mono:size=11";
+//static const char *fonts[]          = { "Liberation Mono:size=11", "fontawesome:size=10"};
+//static const char dmenufont[]       = "Liberation Mono:size=11";
+static const char *fonts[] = { "JetBrainsMono Nerd Font:size=10" };
+static const char dmenufont[] = "JetBrainsMono Nerd Font:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
-static const char col1[]            = "#ffffff";
-static const char col2[]            = "#ffffff";
-static const char col3[]            = "#ffffff";
-static const char col4[]            = "#ffffff";
-static const char col5[]            = "#ffffff";
-static const char col6[]            = "#ffffff";
 
-enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
-       SchemeCol5, SchemeCol6, SchemeSel }; /* color schemes */
+/*
+static const char s_base03[]        = "#002b36";
+static const char s_base02[]        = "#073642";
+static const char s_base01[]        = "#586e75";
+static const char s_base00[]        = "#657b83";
+static const char s_base0[]         = "#839496";
+static const char s_base1[]         = "#93a1a1";
+static const char s_base2[]         = "#eee8d5";
+static const char s_base3[]         = "#fdf6e3";
+*/
+						    //
+static const char col_gbg[]        = "#000000"; // inactive background
+static const char col_gfg[]        = "#a4d1c7"; // inactive text
+static const char col_gborder[]    = "#3e7f68"; // inactive border
+static const char col_gselbg[]     = "#71A898"; // active background
+static const char col_gselfg[]     = "#000000"; // active text
+static const char col_gselborder[] = "#a4d1c7"; // active border
 
+static const char col_obg[]        = "#232020"; // inactive background
+static const char col_ofg[]        = "#F4F4F4"; // inactive text
+static const char col_oborder[]    = "#3A3535"; // inactive border
+static const char col_oselbg[]     = "#FF7315"; // active background
+static const char col_oselfg[]     = "#3A3535"; // active text
+static const char col_oselborder[] = "#F4F4F4"; // active border
+
+static const char col_cpbg[]        = "#01012b"; // inactive background
+static const char col_cpfg[]        = "#05d9e8"; // inactive text
+static const char col_cpborder[]    = "#005678"; // inactive border
+static const char col_cpselbg[]     = "#ff2a6d"; // active background
+static const char col_cpselfg[]     = "#d1f7ff"; // active text
+static const char col_cpselborder[] = "#ff2a6d"; // active border
+						//
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm]  = { col_gray3, col_gray1, col_gray2 },
-	[SchemeCol1]  = { col1,      col_gray1, col_gray2 },
-	[SchemeCol2]  = { col2,      col_gray1, col_gray2 },
-	[SchemeCol3]  = { col3,      col_gray1, col_gray2 },
-	[SchemeCol4]  = { col4,      col_gray1, col_gray2 },
-	[SchemeCol5]  = { col5,      col_gray1, col_gray2 },
-	[SchemeCol6]  = { col6,      col_gray1, col_gray2 },
-	[SchemeSel]   = { col_gray4, col_cyan,  col_cyan  },
+	/*{ s_base0, s_base03, s_base2 },       SchemeNorm dark */
+	/*{ s_base0, s_base02, s_base2 },       SchemeSel dark */
+	/*{ s_base00, s_base3, s_base02 },      SchemeNorm light */
+	/*{ s_base00, s_base2, s_base02},       SchemeSel light */ 
+	{ col_cpfg, col_cpbg, col_cpborder }, /* SchemeNorm CyberPunk*/
+	{ col_cpselfg, col_cpselbg, col_cpselborder }, /* SchemeSel CyberPunk */
+	{ col_gfg, col_gbg, col_gborder }, /* SchemeNorm Green */
+	{ col_gselfg, col_gselbg, col_gselborder }, /* SchemeSel Green */
+	{ col_ofg, col_obg, col_oborder }, /* SchemeNorm Green */
+	{ col_oselfg, col_oselbg, col_oselborder }, /* SchemeSel Green */
+	{ col_gray3, col_gray1, col_gray2 }, /* SchemeNorm orig */
+	{ col_gray4, col_cyan,  col_cyan  }, /* SchemeSel orig */
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3"};
+static const char *tags[] = { "󰌀", "", "󰨞", "", "", "", "󰄮"};
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -46,8 +75,11 @@ static const Rule rules[] = {
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
-	{ "Steam",    NULL,	  NULL,       0,	    1,		 -1 },
+	{ "Brave-browser", NULL,  NULL,       1 << 0,       0,           -1 },
+	{ "code-oss", NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "libreoffice-startcenter", NULL, NULL, 1 << 3,    0,           -1 },
+	{ "Spotify",  NULL, 	  NULL,       1 << 4,	    0,           -1 },
+	{ "steam",    NULL,	  NULL,       1 << 5,	    1,		 -1 },
 };
 
 /* layout(s) */
@@ -79,29 +111,36 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "st", NULL };
 static const char *browser[] = { "brave", NULL};
 static const char *logout[] = { "/bin/bash", "-c", "pkill -u dan", NULL};
-static const char *shutdown[] = { "/bin/bash", "-c", "systemctl poweroff", NULL};
-static const char *reboot[] = { "/bin/bash", "-c", "systemctl reboot", NULL};
+static const char *shutdown[] = { "/bin/bash", "-c", "sudo systemctl poweroff", NULL};
+static const char *reboot[] = { "/bin/bash", "-c", "sudo systemctl reboot", NULL};
 static const char *volup[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%+", "&&", "/home/dan/bin/sv", NULL};
 static const char *voldown[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 5%-", "&&", "/home/dan/bin/sv", NULL};
 //static const char *volmute[] = { "/bin/bash", "-c", "amixer -D default sset Master Playback 0%", NULL};
 static const char *pauseplay[] = { "/bin/bash", "-c", "playerctl play-pause", NULL};
 static const char *audionext[] = { "/bin/bash", "-c", "playerctl next", NULL};
 static const char *audioprev[] = { "/bin/bash", "-c", "playerctl previous", NULL};
+static const char *brightup[] = { "/bin/bash", "-c", "backlight_control +10", NULL};
+static const char *brightdown[] = { "/bin/bash", "-c", "backlight_control -10", NULL};
+static const char *screenshot[] = { "/bin/bash", "-c", "shotgun", NULL};
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawndmenu,     {0} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,			XK_w,	   spawn,	   {.v = browser} },
-	{ MODKEY,			XK_F1,	   spawn,	   {.v = logout} },
+	{ MODKEY,			XK_F1,	   quit,	   {0} },
 	{ MODKEY,			XK_F2,	   spawn,	   {.v = shutdown} },
 	{ MODKEY,			XK_F3,	   spawn,	   {.v = reboot} },
+	{ MODKEY,			XK_F5,	   spawn,	   {.v = brightdown} },
+	{ MODKEY,			XK_F6,	   spawn,	   {.v = brightup} },
 	{ MODKEY,			XK_minus,  spawn,          {.v = voldown} },
 	{ MODKEY,			XK_equal,  spawn,          {.v = volup} },
 	{ MODKEY,			XK_End,	   spawn,   	   {.v = pauseplay} },
 	{ MODKEY,		 XK_Page_Down,     spawn,	   {.v = audionext} },
-	{ MODKEY,		 XK_Page_Up,       spawn,	   {.v = audioprev} },
-	{ MODKEY,		 XF86XK_AudioPlay,    spawn,	   {.v = pauseplay} },
+	{ MODKEY,		XK_Page_Up,       spawn,	   {.v = audioprev} },
+	{ MODKEY,		XF86XK_AudioPlay,    spawn,	   {.v = pauseplay} },
+	{ MODKEY|ShiftMask,             XK_s, 	   spawn,          {.v = screenshot } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -123,6 +162,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_t,      schemeToggle,   {0} },
+	{ MODKEY|ShiftMask,             XK_z,      schemeCycle,    {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
